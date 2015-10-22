@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">OMG Android</string>
+    <string name="app_description">Eric is learning Android!</string>
+    <string name="action_nothing">Do Nothing</string>
+    <string name="action_nothing_message">Doing Nothing is so fun!</string>
+    <string name="action_sendmail">Sending an email is too boring. Doing nothing instead</string>
+</resources>
