@@ -5,6 +5,10 @@
     <string name="action_nothing_message">Ne rien faire, c\'est magique!</string>
     <string name="action_sendmail">Envoyer un e-mail ? Je préfère ne rien faire!</string>
     <string name="app_description">Eric apprends android !</string>
-    <string name="btn_open_carousel_list">Afficher la liste "Carousel"</string>
-    <string name="btn_open_normal_list">Afficher la liste "Normal"</string>
+    <string name="btn_open_grid_list">Pokémons dans une grille</string>
+    <string name="btn_open_normal_list">Pokémons dans une liste</string>
+    <string name="ctxt_kill">Tuer</string>
+    <string name="ctxt_threat">Récompenser </string>
+    <string name="msg_happy">%s est heureux :D</string>
+    <string name="msg_killed">%s est mort :(</string>
 </resources>

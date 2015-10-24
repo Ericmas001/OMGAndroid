@@ -28,6 +28,6 @@
         android:layout_margin="10dp"
         android:background="@color/colorAccent"
         android:textColor="@color/colorAccentText"
-        android:text="@string/btn_open_carousel_list"
+        android:text="@string/btn_open_grid_list"
         android:onClick="openCarouselList"/>
 </LinearLayout>

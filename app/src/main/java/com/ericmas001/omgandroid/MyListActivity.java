@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,21 +42,22 @@ public class MyListActivity extends AppCompatActivity {
         initializeData();
         Intent intent = getIntent();
         String type = intent.getStringExtra(LIST_TYPE);
+        setContentView(R.layout.activity_my_list);
+        RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
+        rv.setHasFixedSize(true);
         switch (type)
         {
             case LIST_TYPE_NORMAL:
-                setContentView(R.layout.activity_my_list_normal);
-                RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
-                rv.setHasFixedSize(true);
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 rv.setLayoutManager(llm);
-                RVAdapter adapter = new RVAdapter(pokemons);
-                rv.setAdapter(adapter);
                 break;
             case LIST_TYPE_CAROUSEL:
-                setContentView(R.layout.activity_my_list_carousel);
+                StaggeredGridLayoutManager glm = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
+                rv.setLayoutManager(glm);
                 break;
         }
+        RVAdapter adapter = new RVAdapter(pokemons);
+        rv.setAdapter(adapter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
