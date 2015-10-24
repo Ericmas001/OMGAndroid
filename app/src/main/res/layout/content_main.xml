@@ -19,6 +19,15 @@
         android:layout_margin="10dp"
         android:background="@color/colorAccent"
         android:textColor="@color/colorAccentText"
-        android:text="@string/btn_openNormalList"
+        android:text="@string/btn_open_normal_list"
         android:onClick="openNormalList"/>
+    <Button
+        android:id="@+id/btnCarouselList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorAccentText"
+        android:text="@string/btn_open_carousel_list"
+        android:onClick="openCarouselList"/>
 </LinearLayout>

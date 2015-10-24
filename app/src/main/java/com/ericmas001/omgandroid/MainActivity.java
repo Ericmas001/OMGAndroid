@@ -13,8 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String LIST_TYPE = "com.ericmas001.omgandroid.LIST_TYPE";
-    public final static String LIST_TYPE_NORMAL = "NORMAL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +34,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openNormalList(View view) {
+        OpenList(MyListActivity.LIST_TYPE_NORMAL);
+    }
+
+    public void openCarouselList(View view) {
+        OpenList(MyListActivity.LIST_TYPE_CAROUSEL);
+    }
+
+    private void OpenList(String parm){
         Intent intent = new Intent(this, MyListActivity.class);
-        intent.putExtra(LIST_TYPE, LIST_TYPE_NORMAL);
+        intent.putExtra(MyListActivity.LIST_TYPE, parm);
         startActivity(intent);
-        //Snackbar.make(view, getString(R.string.action_openNormalList), Snackbar.LENGTH_LONG)
-        //        .setAction("Action", null).show();
     }
 
     public void sendMail(View view) {

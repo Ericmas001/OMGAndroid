@@ -5,6 +5,6 @@
     <string name="action_nothing_message">Ne rien faire, c\'est magique!</string>
     <string name="action_sendmail">Envoyer un e-mail ? Je préfère ne rien faire!</string>
     <string name="app_description">Eric apprends android !</string>
-    <string name="btn_openNormalList">Afficher la liste "Normal"</string>
-    <string name="action_openNormalList">Non ! Je ne fait pas ça !</string>
+    <string name="btn_open_carousel_list">Afficher la liste "Carousel"</string>
+    <string name="btn_open_normal_list">Afficher la liste "Normal"</string>
 </resources>
