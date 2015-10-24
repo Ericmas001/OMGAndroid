@@ -4,4 +4,6 @@
     <string name="action_nothing">Do Nothing</string>
     <string name="action_nothing_message">Doing Nothing is so fun!</string>
     <string name="action_sendmail">Sending an email is too boring. Doing nothing instead</string>
+    <string name="btn_openNormalList">View a Normal List</string>
+    <string name="action_openNormalList">Nope ! Doing nothing !</string>
 </resources>

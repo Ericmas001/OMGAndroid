@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OMG Android</string>
+    <string name="action_nothing">Ne rien faire</string>
+    <string name="action_nothing_message">Ne rien faire, c\'est magique!</string>
+    <string name="action_sendmail">Envoyer un e-mail ? Je préfère ne rien faire!</string>
+    <string name="app_description">Eric apprends android !</string>
+    <string name="btn_openNormalList">Afficher la liste "Normal"</string>
+    <string name="action_openNormalList">Non ! Je ne fait pas ça !</string>
+</resources>
