@@ -1,4 +1,4 @@
-package com.ericmas001.omgandroid;
+package com.ericmas001.omgandroid.viewmodels;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,6 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.ericmas001.omgandroid.helpers.MenuHelper;
+import com.ericmas001.omgandroid.models.Pokemon;
+import com.ericmas001.omgandroid.R;
+import com.ericmas001.omgandroid.adapters.RVAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +62,7 @@ public class MyListActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
-        if(Pokemon.Pokemons.isEmpty())
+        if(Pokemon.getPokemons().isEmpty())
             new RetrieveFeedTask().execute();
         else
             fillWithPokemons();
@@ -65,7 +70,7 @@ public class MyListActivity extends AppCompatActivity {
 
     private void fillWithPokemons() {
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
-        RVAdapter adapter = new RVAdapter(Pokemon.Pokemons);
+        RVAdapter adapter = new RVAdapter(Pokemon.getPokemons());
         rv.setAdapter(adapter);
     }
 
@@ -77,14 +82,14 @@ public class MyListActivity extends AppCompatActivity {
 
     public void doNothing(MenuItem item) {
 
-        GlobalMenu.doNothing(this, item);
+        MenuHelper.doNothing(this, item);
     }
 
     class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
-            Pokemon.Pokemons.clear();
+            Pokemon.getPokemons().clear();
         }
 
         protected String doInBackground(Void... urls) {
@@ -120,7 +125,7 @@ public class MyListActivity extends AppCompatActivity {
                 for (int i = 0; i < json.length(); i++) {
                     JSONObject j = json.getJSONObject(i);
                     Pokemon p = new Pokemon(j.getInt("Id"),j.getString("Name"),j.getString("Type"), j.getString("Photo"));
-                    Pokemon.Pokemons.add(p);
+                    Pokemon.getPokemons().add(p);
                 }
                 fillWithPokemons();
             } catch (JSONException | InterruptedException | ExecutionException e) {

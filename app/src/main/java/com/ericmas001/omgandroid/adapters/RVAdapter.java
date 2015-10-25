@@ -1,4 +1,4 @@
-package com.ericmas001.omgandroid;
+package com.ericmas001.omgandroid.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -13,13 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ericmas001.omgandroid.R;
+import com.ericmas001.omgandroid.models.Pokemon;
+
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>{
     List<Pokemon> pokemons;
     private SparseBooleanArray selectedItems;
 
-    RVAdapter(List<Pokemon> pokemons){
+    public RVAdapter(List<Pokemon> pokemons){
         this.pokemons = pokemons;
         selectedItems = new SparseBooleanArray(getItemCount());
     }
@@ -60,22 +63,22 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         public void bind(Pokemon p)
         {
             pokemon = p;
-            pokemonName.setText(p.name);
-            pokemonType.setText(p.type);
-            pokemonPhoto.setImageBitmap(p.bmp);
-            cv.setSelected(pokemon.selected);
+            pokemonName.setText(p.getName());
+            pokemonType.setText(p.getType());
+            pokemonPhoto.setImageBitmap(p.getBmp());
+            cv.setSelected(pokemon.isSelected());
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), pokemon.name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), pokemon.getName(), Toast.LENGTH_SHORT).show();
         }
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v,
                                          ContextMenu.ContextMenuInfo menuInfo) {
 
             Context c = itemView.getContext();
-            menu.setHeaderTitle(pokemon.name);
+            menu.setHeaderTitle(pokemon.getName());
             MenuItem threatActionItem = menu.add(c.getString(R.string.ctxt_threat));
             threatActionItem.setOnMenuItemClickListener(mOnThreatClickListener);
             MenuItem killActionItem = menu.add(c.getString(R.string.ctxt_kill));
@@ -86,7 +89,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Context c = itemView.getContext();
-                Toast.makeText(c, String.format(c.getString(R.string.msg_happy),pokemon.name), Toast.LENGTH_LONG).show();
+                Toast.makeText(c, String.format(c.getString(R.string.msg_happy),pokemon.getName()), Toast.LENGTH_LONG).show();
                 return true;
             }
         };
@@ -94,7 +97,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Context c = itemView.getContext();
-                Toast.makeText(c, String.format(c.getString(R.string.msg_killed),pokemon.name), Toast.LENGTH_LONG).show();
+                Toast.makeText(c, String.format(c.getString(R.string.msg_killed),pokemon.getName()), Toast.LENGTH_LONG).show();
                 return true;
             }
         };

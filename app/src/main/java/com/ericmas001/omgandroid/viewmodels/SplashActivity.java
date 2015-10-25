@@ -1,8 +1,10 @@
-package com.ericmas001.omgandroid;
+package com.ericmas001.omgandroid.viewmodels;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.ericmas001.omgandroid.R;
 
 public class SplashActivity extends Activity {
 

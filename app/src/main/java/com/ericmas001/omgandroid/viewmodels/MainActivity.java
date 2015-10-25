@@ -1,16 +1,16 @@
-package com.ericmas001.omgandroid;
+package com.ericmas001.omgandroid.viewmodels;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.Toast;
+
+import com.ericmas001.omgandroid.helpers.MenuHelper;
+import com.ericmas001.omgandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doNothing(MenuItem item) {
-        GlobalMenu.doNothing(this, item);
+        MenuHelper.doNothing(this, item);
     }
 
     public void openNormalList(View view) {
