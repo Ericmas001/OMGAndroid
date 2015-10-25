@@ -62,7 +62,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             pokemon = p;
             pokemonName.setText(p.name);
             pokemonType.setText(p.type);
-            pokemonPhoto.setImageResource(p.photoId);
+            pokemonPhoto.setImageBitmap(p.bmp);
             cv.setSelected(pokemon.selected);
         }
 

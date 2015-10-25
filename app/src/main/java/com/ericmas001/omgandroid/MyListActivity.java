@@ -1,50 +1,46 @@
 package com.ericmas001.omgandroid;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ProgressBar;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MyListActivity extends AppCompatActivity {
     public final static String LIST_TYPE = "com.ericmas001.omgandroid.LIST_TYPE";
     public final static String LIST_TYPE_NORMAL = "NORMAL";
     public final static String LIST_TYPE_CAROUSEL = "CAROUSEL";
-    private List<Pokemon> pokemons;
+    ProgressBar progressBar;
+    static final String API_URL = "http://webservice.ericmas001.com/api/pokemons";
 
-    private void initializeData(){
-        pokemons = new ArrayList<>();
-        pokemons.add(new Pokemon("Bulbasaur", "Grass / Poison", R.drawable.pokemon_bulbasaur));
-        pokemons.add(new Pokemon("Charmander", "Fire", R.drawable.pokemon_charmander));
-        pokemons.add(new Pokemon("Squirtle", "Water", R.drawable.pokemon_squirtle));
-        pokemons.add(new Pokemon("Caterpie", "Bug", R.drawable.pokemon_caterpie));
-        pokemons.add(new Pokemon("Pikachu", "Electric", R.drawable.pokemon_pikachu));
-        pokemons.add(new Pokemon("Oddish", "Grass / Poison", R.drawable.pokemon_oddish));
-        pokemons.add(new Pokemon("Meowth", "Normal", R.drawable.pokemon_meowth));
-        pokemons.add(new Pokemon("Psyduck", "Water", R.drawable.pokemon_psyduck));
-        pokemons.add(new Pokemon("Magikarp", "Water", R.drawable.pokemon_magikarp));
-        pokemons.add(new Pokemon("Snorlax", "Normal", R.drawable.pokemon_snorlax));
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeData();
         Intent intent = getIntent();
         String type = intent.getStringExtra(LIST_TYPE);
         setContentView(R.layout.activity_my_list);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
-        rv.setHasFixedSize(true);
         switch (type)
         {
             case LIST_TYPE_NORMAL:
@@ -56,25 +52,81 @@ public class MyListActivity extends AppCompatActivity {
                 rv.setLayoutManager(glm);
                 break;
         }
-        RVAdapter adapter = new RVAdapter(pokemons);
-        rv.setAdapter(adapter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+        if(Pokemon.Pokemons.isEmpty())
+            new RetrieveFeedTask().execute();
+        else
+            fillWithPokemons();
+    }
+
+    private void fillWithPokemons() {
+        RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
+        RVAdapter adapter = new RVAdapter(Pokemon.Pokemons);
+        rv.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     public void doNothing(MenuItem item) {
+
         GlobalMenu.doNothing(this, item);
     }
 
+    class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+            Pokemon.Pokemons.clear();
+        }
+
+        protected String doInBackground(Void... urls) {
+            try {
+                URL url = new URL(API_URL);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                    bufferedReader.close();
+                    return stringBuilder.toString();
+                } finally {
+                    urlConnection.disconnect();
+                }
+            } catch (Exception e) {
+                Log.e("ERROR", e.getMessage(), e);
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String response) {
+            if (response == null) {
+                response = "THERE WAS AN ERROR";
+            }
+            progressBar.setVisibility(View.GONE);
+            Log.i("INFO", response);
+            try {
+                JSONArray json = new JSONArray(response);
+                for (int i = 0; i < json.length(); i++) {
+                    JSONObject j = json.getJSONObject(i);
+                    Pokemon p = new Pokemon(j.getInt("Id"),j.getString("Name"),j.getString("Type"), j.getString("Photo"));
+                    Pokemon.Pokemons.add(p);
+                }
+                fillWithPokemons();
+            } catch (JSONException | InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
