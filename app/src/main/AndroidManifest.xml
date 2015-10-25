@@ -14,7 +14,7 @@
         <activity
             android:name=".viewmodels.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,8 +32,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".viewmodels.MyListActivity"
+            android:name=".viewmodels.GeneralPokedexActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".viewmodels.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

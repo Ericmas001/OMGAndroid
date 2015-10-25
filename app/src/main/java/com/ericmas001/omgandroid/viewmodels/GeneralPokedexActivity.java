@@ -1,10 +1,12 @@
 package com.ericmas001.omgandroid.viewmodels;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.ericmas001.omgandroid.helpers.LocaleHelper;
 import com.ericmas001.omgandroid.helpers.MenuHelper;
 import com.ericmas001.omgandroid.models.Pokemon;
 import com.ericmas001.omgandroid.R;
@@ -31,31 +34,49 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class MyListActivity extends AppCompatActivity {
-    public final static String LIST_TYPE = "com.ericmas001.omgandroid.LIST_TYPE";
-    public final static String LIST_TYPE_NORMAL = "NORMAL";
-    public final static String LIST_TYPE_CAROUSEL = "CAROUSEL";
+public class GeneralPokedexActivity extends AppCompatActivity {
+    public final static String LIST_TYPE_LIST = "LIST";
+    public final static String LIST_TYPE_GRID = "GRID";
+    public final static String LIST_TYPE_SUPERGRID = "SUPERGRID";
     ProgressBar progressBar;
     static final String API_URL = "http://webservice.ericmas001.com/api/pokemons";
+    private String listType = LIST_TYPE_LIST;
+
+    @Override
+    protected void onResume() {
+        LocaleHelper.setLocale(this);
+        String type = PreferenceManager.getDefaultSharedPreferences(this).getString("gen_display_layout", LIST_TYPE_LIST);
+        if(!type.equals(listType)){
+            listType = type;
+            recreate();
+        }
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String type = intent.getStringExtra(LIST_TYPE);
+        LocaleHelper.setLocale(this);
+        listType =  PreferenceManager.getDefaultSharedPreferences(this).getString("gen_display_layout", LIST_TYPE_LIST);
         setContentView(R.layout.activity_my_list);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
-        switch (type)
-        {
-            case LIST_TYPE_NORMAL:
+        switch (listType) {
+            case LIST_TYPE_LIST: {
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 rv.setLayoutManager(llm);
                 break;
-            case LIST_TYPE_CAROUSEL:
+            }
+            case LIST_TYPE_GRID: {
+                GridLayoutManager glm = new GridLayoutManager(this, 2);
+                rv.setLayoutManager(glm);
+                break;
+            }
+            case LIST_TYPE_SUPERGRID: {
                 StaggeredGridLayoutManager glm = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
                 rv.setLayoutManager(glm);
                 break;
+            }
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +103,11 @@ public class MyListActivity extends AppCompatActivity {
 
     public void doNothing(MenuItem item) {
 
-        MenuHelper.doNothing(this, item);
+        MenuHelper.openSettings(this, item);
+    }
+
+    public void refresh(View view) {
+        new RetrieveFeedTask().execute();
     }
 
     class RetrieveFeedTask extends AsyncTask<Void, Void, String> {

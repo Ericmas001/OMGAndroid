@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 import com.ericmas001.omgandroid.R;
+import com.ericmas001.omgandroid.helpers.LocaleHelper;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setupActionBar();
     }
 

@@ -9,14 +9,22 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ericmas001.omgandroid.helpers.LocaleHelper;
 import com.ericmas001.omgandroid.helpers.MenuHelper;
 import com.ericmas001.omgandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        LocaleHelper.setLocale(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -24,26 +32,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     public void doNothing(MenuItem item) {
-        MenuHelper.doNothing(this, item);
+        MenuHelper.openSettings(this, item);
     }
 
     public void openNormalList(View view) {
-        OpenList(MyListActivity.LIST_TYPE_NORMAL);
-    }
-
-    public void openCarouselList(View view) {
-        OpenList(MyListActivity.LIST_TYPE_CAROUSEL);
-    }
-
-    private void OpenList(String parm){
-        Intent intent = new Intent(this, MyListActivity.class);
-        intent.putExtra(MyListActivity.LIST_TYPE, parm);
+        Intent intent = new Intent(this, GeneralPokedexActivity.class);
         startActivity(intent);
     }
 

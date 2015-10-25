@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name">OMG Android</string>
-    <string name="app_description">Eric is learning Android!</string>
-    <string name="action_nothing">Do Nothing</string>
-    <string name="action_nothing_message">Doing Nothing is so fun!</string>
+    <string name="app_name">OMG Pokedex</string>
+    <string name="action_settings">Settings</string>
     <string name="action_sendmail">Sending an email is too boring. Doing nothing instead</string>
-    <string name="btn_open_grid_list">Pokemons in a Grid</string>
-    <string name="btn_open_normal_list">Pokemons in a List</string>
+    <string name="btn_open_global">Global Pokedex</string>
     <string name="ctxt_kill">Kill</string>
     <string name="ctxt_threat">Give a threat</string>
     <string name="msg_killed">%s is dead :(</string>

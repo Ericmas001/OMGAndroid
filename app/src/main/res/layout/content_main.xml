@@ -10,8 +10,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <TextView android:text="@string/app_description" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/btnNormalList"
         android:layout_width="fill_parent"
@@ -19,15 +17,6 @@
         android:layout_margin="10dp"
         android:background="@color/colorAccent"
         android:textColor="@color/colorAccentText"
-        android:text="@string/btn_open_normal_list"
+        android:text="@string/btn_open_global"
         android:onClick="openNormalList"/>
-    <Button
-        android:id="@+id/btnCarouselList"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/colorAccent"
-        android:textColor="@color/colorAccentText"
-        android:text="@string/btn_open_grid_list"
-        android:onClick="openCarouselList"/>
 </LinearLayout>
